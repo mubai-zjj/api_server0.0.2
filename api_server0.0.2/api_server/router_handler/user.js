@@ -10,23 +10,16 @@ const jwt = require('jsonwebtoken')
 exports.register = (req, res) => {
     // 接收表单数据
     const userinfo = req.body
-    // 判断数据是否合法
-    /*if (!userinfo.username || !userinfo.password) {
-     return res.cc(err)
-     }
-     */
     //定义SQL语句，查询语句，查询当前用户名是否被占用
     const sql = `select * from ev_users where username=?`
     db.query(sql, [userinfo.username], function (err, results) {
         // 执行 SQL 语句失败
         if (err) {
             return res.cc(err)
-
         }
         // 用户名被占用
         if (results.length > 0) {
             return res.cc('用户名被占用，请更换其他用户名')
-
         }
         // 对用户的密码,进行 bcrype 加密，返回值是加密之后的密码字符串
         userinfo.password = bcrypt.hashSync(userinfo.password, 10)
@@ -39,9 +32,7 @@ exports.register = (req, res) => {
                     username: userinfo.username,
                     password: userinfo.password,
                     userphone: userinfo.userphone,
-                    LSEA_username: userinfo.LSEA_username,
-                    LSEA_password: userinfo.LSEA_password,
-                    LSEA_url: userinfo.LSEA_url
+                    usercompany: userinfo.usercompany,
                 },
                 function (err, results) {
                     // 执行 SQL 语句失败
